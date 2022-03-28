@@ -1,7 +1,7 @@
 # Makefile: http://www.eng.hawaii.edu/Tutor/Make/
 
 # Compiling flags
-CFLAGS = #-O3 -Wno-unused-result
+CFLAGS = -O3 -Wno-unused-result
 
 # Linking flags
 LFLAGS = -lm
