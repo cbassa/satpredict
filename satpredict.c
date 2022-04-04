@@ -304,7 +304,7 @@ void usage()
   printf("r    radius (deg) [default: 10.0 deg]\n");
   printf("L    manual site longitude (deg) [default: 0.0 deg]\n");
   printf("B    manual site latitude (deg) [default: 0.0 deg]\n");
-  printf("H    manual site elevation (m) [default: 0.0 deg]\n");
+  printf("H    manual site elevation (m) [default: 0.0 m]\n");
   printf("o    output csv file [default: results.csv]\n");
   printf("h    this help\n");
 
@@ -416,7 +416,7 @@ int main(int argc,char *argv[])
 
   // Open output file
   file=fopen(outfile,"w");
-  fprintf(file,"satno,mjd,ra,dec,state,tlefile\n");
+  fprintf(file,"satno,mjd,ra,dec,state,tlefile,age\n");
   
   // Compute positions
   for (i=0;i<ntlefile;i++)
