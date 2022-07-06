@@ -9,8 +9,14 @@ LFLAGS = -lm
 # Compilers
 CC = gcc
 
+# PREFIX
+PREFIX := /usr/local
+
 satpredict: satpredict.o sgdp4.o satutl.o deep.o ferror.o
 	$(CC) -o satpredict satpredict.o sgdp4.o satutl.o deep.o ferror.o -lm
+
+install: satpredict
+	cp satpredict $(PREFIX)/bin
 
 clean:
 	rm -f *.o
