@@ -268,7 +268,7 @@ void compute_positions(char *tlefile,FILE *file,double ra0,double de0,double rad
       // TLE age
       age=p[i].mjd+2400000.5-SGDP4_jd0;
       
-      fprintf(file,"%05d,%014.8lf,%010.6lf,%+010.6lf,%s,%s,%.3f\n",orb.satno,p[i].mjd,ra,de,state,tlefile,age);
+      fprintf(file,"%05d,%s,%014.8lf,%010.6lf,%+010.6lf,%s,%s,%.3f\n",orb.satno,orb.desig,p[i].mjd,ra,de,state,tlefile,age);
     }
 
   }
@@ -416,7 +416,7 @@ int main(int argc,char *argv[])
 
   // Open output file
   file=fopen(outfile,"w");
-  fprintf(file,"satno,mjd,ra,dec,state,tlefile,age\n");
+  fprintf(file,"satno,cospar,mjd,ra,dec,state,tlefile,age\n");
   
   // Compute positions
   for (i=0;i<ntlefile;i++)
