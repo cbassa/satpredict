@@ -294,19 +294,20 @@ void nfd_now(char *s)
 
 void usage()
 {
-  printf("satpredict t:l:c:R:D:r:L:B:H:o:\n\n");
-  printf("t    date/time (yyyy-mm-ddThh:mm:ss.sss) [default: now]\n");
-  printf("l    length (s) [default: 10s]\n");
-  printf("n    number of points [default: 10]\n");
-  printf("c    TLE catalog file [default: classfd.tle]\n");
-  printf("R    R.A. (deg) [default: 0.0 deg]\n");
-  printf("D    Decl. (deg) [default: 0.0 deg]\n");
-  printf("r    radius (deg) [default: 10.0 deg]\n");
-  printf("L    manual site longitude (deg) [default: 0.0 deg]\n");
-  printf("B    manual site latitude (deg) [default: 0.0 deg]\n");
-  printf("H    manual site elevation (m) [default: 0.0 m]\n");
-  printf("o    output csv file [default: results.csv]\n");
-  printf("h    this help\n");
+  printf("Usage: satpredict [OPTION]\n");
+  printf("Compute satellite predictions.\n\n");
+  printf("-t, --time      date/time (yyyy-mm-ddThh:mm:ss.sss) [default: now]\n");
+  printf("-l, --length    length (s) [default: 10s]\n");
+  printf("-n, --num       number of points [default: 10]\n");
+  printf("-c, --catalog   TLE catalog file [default: classfd.tle]\n");
+  printf("-R, --ra        R.A. (deg) [default: 0.0 deg]\n");
+  printf("-D, --decl      Decl. (deg) [default: 0.0 deg]\n");
+  printf("-r, --radius    radius (deg) [default: 10.0 deg]\n");
+  printf("-L, --longitude manual site longitude (deg) [default: 0.0 deg]\n");
+  printf("-B, --latitude  manual site latitude (deg) [default: 0.0 deg]\n");
+  printf("-H, --height    manual site elevation (m) [default: 0.0 m]\n");
+  printf("-o, --output    output csv file [default: results.csv]\n");
+  printf("-h, --help      this help\n");
 
   return;
 }
@@ -331,9 +332,44 @@ int main(int argc,char *argv[])
   
   // Decode options
   if (argc>1) {
-    while ((arg=getopt(argc,argv,"t:l:n:c:R:D:r:L:B:H:o:"))!=-1) {
-      switch (arg) {
-	
+  int c;
+  while (1)
+    {
+      static struct option long_options[] = {
+        {"time", required_argument, 0, 't'},
+        {"length", required_argument, 0, 'l'},
+        {"num", required_argument, 0, 'n'},
+        {"catalog", required_argument, 0, 'c'},
+        {"ra", required_argument, 0, 'R'},
+        {"decl", required_argument, 0, 'D'},
+        {"radius", required_argument, 0, 'r'},
+        {"longitude", required_argument, 0, 'L'},
+        {"latitude", required_argument, 0, 'B'},
+        {"height", required_argument, 0, 'H'},
+        {"output", no_argument, 0, 'o'},
+        {"help", no_argument, 0, 'h'},
+        {0, 0, 0, 0}
+      };
+      int option_index = 0;
+
+      c =
+        getopt_long (argc, argv,
+                     "t:l:n:c:R:D:r:L:B:H:o:",
+                     long_options, &option_index);
+
+      if (c == -1)
+        break;
+
+      switch (c)
+        {
+        case 0:
+          if (long_options[option_index].flag != 0)
+            break;
+          printf ("option %s", long_options[option_index].name);
+          if (optarg)
+            printf (" with arg %s", optarg);
+          printf ("\n");
+          break;
       case 't':
 	strcpy(nfd,optarg);
 	mjd0=nfd2mjd(nfd);
