@@ -207,14 +207,18 @@ void compute_positions(char *tlefile,FILE *file,double ra0,double de0,double rad
     imode=init_sgdp4(&orb);
     
     // Skip on error
-    if (imode==SGDP4_ERROR)
+    if (imode==SGDP4_ERROR) 
       continue;
 
     // Loop over times
     for (i=0;i<nmjd;i++) {
       // Satellite position
-      satpos_xyz(p[i].mjd+2400000.5,&satpos,&satvel);
+      imode=satpos_xyz(p[i].mjd+2400000.5,&satpos,&satvel);
 
+      // Skip on error
+      if (imode==SGDP4_ERROR) 
+	continue;
+      
       // Check on radius
       r=sqrt(satpos.x*satpos.x+satpos.y*satpos.y+satpos.z*satpos.z);
       if (r>300000)
@@ -257,6 +261,7 @@ void compute_positions(char *tlefile,FILE *file,double ra0,double de0,double rad
       ptot=acos((-dx*satpos.x-dy*satpos.y-dz*satpos.z)/(rsun*rearth))*R2D;
 
       // Visibility state
+      strcpy(state,"eclipsed");
       if (ptot-pearth<-psun) {
 	strcpy(state,"eclipsed");
       } else if (ptot-pearth>-psun && ptot-pearth<psun) {
